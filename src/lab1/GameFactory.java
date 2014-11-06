@@ -11,7 +11,7 @@ public class GameFactory implements IGameFactory {
 	 */
 	@Override
 	public String[] getGameNames() {
-		return new String[] { "Gold" };
+		return new String[] { "Gold", "Space Shooter" };
 	}
 
 	/**
@@ -26,7 +26,9 @@ public class GameFactory implements IGameFactory {
 	public GameModel createGame(final String gameName) {
 		if (gameName.equals("Gold")) {
 			return new GoldModel();
-		}
+		} else if (gameName.equals("Space Shooter")) {
+            return new SpaceShooterModel();
+        }
 
 		throw new IllegalArgumentException("No such game: " + gameName);
 	}
