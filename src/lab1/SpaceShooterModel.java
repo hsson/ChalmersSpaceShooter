@@ -5,6 +5,8 @@ import java.awt.event.KeyEvent;
 
 public class SpaceShooterModel extends GameModel{
 
+    static private int tickCount = 0;
+
     public enum Directions {
         EAST(1, 0),
         WEST(-1, 0),
@@ -103,16 +105,13 @@ public class SpaceShooterModel extends GameModel{
 
     @Override
     public void gameUpdate(int lastKey) throws GameOverException {
+        tickCount++;
+
         handleKeyPress(lastKey);
-
-
-        if (!isOutOfBounds(getNextPlayerPosition()) && isPositionEmpty(getNextPlayerPosition())) {
-            System.out.println(playerDirection.getXDelta() + " | " + playerDirection.getYDelta());
+        if (tickCount % 3 == 0 && !isOutOfBounds(getNextPlayerPosition()) && isPositionEmpty(getNextPlayerPosition())) {
             setGameboardState(playerPosition, BLANK_TILE);
             playerPosition = getNextPlayerPosition();
             setGameboardState(playerPosition, PLAYER_TILE);
         }
-
-
     }
 }
