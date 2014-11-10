@@ -1,5 +1,6 @@
 package lab1;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -30,6 +31,14 @@ public class SpaceShooterModel extends GameModel{
             return this.yDelta;
         }
     }
+
+    /** A list of images to be used in the game */
+
+    private static final Image PLAYER_IMAGE = new ImageIcon("img/tile-spaceship.png").getImage();
+    private static final Image GREEN_UFO_IMAGE = new ImageIcon("img/tile-greenufo.png").getImage();
+    private static final Image BULLET_IMAGE = new ImageIcon("img/tile-bullet.png").getImage();
+
+    /** END OF IMAGE LIST */
 
     /** A blank tile to fill out the grid not containing anything */
     private static final GameTile BLANK_TILE = new GameTile();
@@ -101,6 +110,24 @@ public class SpaceShooterModel extends GameModel{
     private boolean isOutOfBounds(Position pos) {
         return pos.getX() < 0 || pos.getX() >= getGameboardSize().width
                 || pos.getY() < 0 || pos.getY() >= getGameboardSize().height;
+    }
+
+    private boolean isCollisionBetween(GameEntity e1, GameEntity e2) {
+        // TODO: Fix method
+        if (e1 == null || e2 == null) {
+            return false;
+        }
+
+        Position p1 = e1.getPos();
+        Position p2 = e2.getPos();
+
+        if (p1.getX() == p2.getX() && p1.getY() == p2.getY()) {
+            // There is a collision
+            return true;
+        } else {
+            // There is no collision
+            return false;
+        }
     }
 
     @Override
