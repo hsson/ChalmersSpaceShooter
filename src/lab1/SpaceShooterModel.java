@@ -1,5 +1,6 @@
 package lab1;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -36,6 +37,9 @@ public class SpaceShooterModel extends GameModel{
 
     /** The tile representing the player */
     private static final PlayerTile PLAYER_TILE = new PlayerTile();
+
+    /** The image representing the instancesList */
+    private static final ImageTile BULLET_TILE = new ImageTile(new ImageIcon("img/tile-bullet.png").getImage());
 
     /** The position of the player. */
     private Position playerPosition;
@@ -81,7 +85,8 @@ public class SpaceShooterModel extends GameModel{
                 break;
             case KeyEvent.VK_SPACE:
                 // TODO: Shoot here
-                System.out.println("BANG");
+                Bullet bullet = new Bullet(new Position(playerPosition.getX(), playerPosition.getY()-1), BULLET_TILE);
+                setGameboardState(bullet.getPos().getX(), bullet.getPos().getY(), BULLET_TILE);
                 break;
             default:
                 // Don't change direction if another key is pressed
@@ -112,6 +117,20 @@ public class SpaceShooterModel extends GameModel{
             setGameboardState(playerPosition, BLANK_TILE);
             playerPosition = getNextPlayerPosition();
             setGameboardState(playerPosition, PLAYER_TILE);
+        }
+        for(int i = 0; i < Bullet.instancesList.size(); i++){
+            Bullet bullet = Bullet.instancesList.get(i);
+
+
+            setGameboardState(bullet.getPos(), BLANK_TILE);
+            bullet.setPos(bullet.getNextPos());
+            if(!isOutOfBounds(bullet.getPos())) {
+                setGameboardState(bullet.getPos(), BULLET_TILE);
+            }
+            if(isOutOfBounds(bullet.getPos())){
+                Bullet.instancesList.remove(i);
+            }
+
         }
     }
 }

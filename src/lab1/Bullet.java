@@ -1,25 +1,24 @@
 package lab1;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Bullet implements GameEntity{
     private ImageTile tile;
     private Position pos;
-    public static ArrayList<Bullet> bullets;
+    public static ArrayList<Bullet> instancesList = new ArrayList<Bullet>();
 
-    public Bullet(Position position, ImageTile tile){
+    public Bullet(Position pos, ImageTile tile){
         this.tile = tile;
-        bullets.add(this);
+        this.pos = pos;
+        instancesList.add(this);
     }
 
     public Bullet(ImageTile tile){
         this.tile = tile;
     }
 
-    public void updatePos(){
-        pos = new Position(pos.getX(), pos.getY()-1);
+    public Position getNextPos(){
+        return new Position(pos.getX(), pos.getY()-1);
     }
 
     public ImageTile getTile(){
