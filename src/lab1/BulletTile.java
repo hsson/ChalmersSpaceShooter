@@ -11,8 +11,9 @@ public class BulletTile extends ImageTile {
     private Image image;
     private int x;
     public static ArrayList<ImageTile> bullets;
-    public BulletTile(){
-        image = new ImageIcon("img/tile-bullet.png").getImage();
+
+    public BulletTile(Position position, Image image){
+        super(position, image);
         bullets.add((ImageTile)this);
     }
 
