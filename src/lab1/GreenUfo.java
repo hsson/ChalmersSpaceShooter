@@ -1,10 +1,28 @@
 package lab1;
 
-import java.awt.*;
+import java.util.ArrayList;
 
-public class GreenUfo extends ImageTile {
+public class GreenUfo implements GameEntity {
 
-    public GreenUfo(Position tilePosition, Image tileImage) {
-        super(tilePosition, tileImage);
+    private final ImageTile imageTile;
+    private Position ufoPosition;
+
+    public static ArrayList<GreenUfo> instancsList = new ArrayList<GreenUfo>();
+
+    public GreenUfo(ImageTile imageTile) {
+        this.imageTile = imageTile;
+        instancsList.add(this);
+    }
+
+    public Position getPos() {
+        return this.ufoPosition;
+    }
+
+    public void setPos(Position pos) {
+        this.ufoPosition = pos;
+    }
+
+    public ImageTile getTile() {
+        return this.imageTile;
     }
 }
