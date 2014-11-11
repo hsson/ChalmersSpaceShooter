@@ -195,10 +195,6 @@ public class SpaceShooterModel extends GameModel{
             }
         }
 
-        // Must happen between things that happen every third tick and things that happen
-        // every tick. Or else there is a possibility for objects passing each other.
-        performCollisionCheck();
-
         // Update logic for Bullet
         for (Bullet bullet : Bullet.instancesList){
             if (bullet.getIsAlive()) {
@@ -211,5 +207,7 @@ public class SpaceShooterModel extends GameModel{
                 }
             }
         }
+
+        performCollisionCheck();
     }
 }
