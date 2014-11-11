@@ -145,19 +145,20 @@ public class SpaceShooterModel extends GameModel{
 
         handleKeyPress(lastKey);
 
-        if (tickCount % 3 == 0 && !isOutOfBounds(getNextPlayerPosition()) && isPositionEmpty(getNextPlayerPosition())) {
-            setGameboardState(playerPosition, BLANK_TILE);
-            playerPosition = getNextPlayerPosition();
-            setGameboardState(playerPosition, PLAYER_TILE);
+        if (tickCount % 3 == 0) {
+            if (!isOutOfBounds(getNextPlayerPosition()) && isPositionEmpty(getNextPlayerPosition())) {
+                setGameboardState(playerPosition, BLANK_TILE);
+                playerPosition = getNextPlayerPosition();
+                setGameboardState(playerPosition, PLAYER_TILE);
+            }
 
             for (GreenUfo ufo : GreenUfo.instancsList) {
                 if (ufo.getIsAlive()) {
-                    if (!isOutOfBounds(ufo.getNextPos()) && isPositionEmpty(ufo.getNextPos())) {
-                        setGameboardState(ufo.getPos(), BLANK_TILE);
-                        ufo.setPos(ufo.getNextPos());
+                    setGameboardState(ufo.getPos(), BLANK_TILE);
+                    ufo.setPos(ufo.getNextPos());
+                    if (!isOutOfBounds(ufo.getPos())) {
                         setGameboardState(ufo.getPos(), ufo.getTile());
-                    } else if (isOutOfBounds(ufo.getNextPos())) {
-                        setGameboardState(ufo.getPos(), BLANK_TILE);
+                    } else {
                         ufo.setIsAlive(false);
                     }
                 }
@@ -170,8 +171,7 @@ public class SpaceShooterModel extends GameModel{
                 bullet.setPos(bullet.getNextPos());
                 if (!isOutOfBounds(bullet.getPos())) {
                     setGameboardState(bullet.getPos(), bullet.getTile());
-                }
-                if (isOutOfBounds(bullet.getPos())) {
+                } else {
                     bullet.setIsAlive(false);
                 }
             }
