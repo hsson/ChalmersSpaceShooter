@@ -6,11 +6,14 @@ public class Bullet implements GameEntity{
     private ImageTile tile;
     private Position pos;
     public static ArrayList<Bullet> instancesList = new ArrayList<Bullet>();
+    private boolean isAlive;
 
     public Bullet(Position pos, ImageTile tile){
         this.tile = tile;
         this.pos = pos;
         instancesList.add(this);
+        GameEntity.allGameEntities.add(this);
+        isAlive = true;
     }
 
     public Bullet(ImageTile tile){
@@ -31,5 +34,13 @@ public class Bullet implements GameEntity{
 
     public Position getPos(){
         return pos;
+    }
+
+    public boolean getIsAlive() {
+        return this.isAlive;
+    }
+
+    public void setIsAlive(boolean isAlive) {
+        this.isAlive = isAlive;
     }
 }

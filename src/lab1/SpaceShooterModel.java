@@ -46,8 +46,11 @@ public class SpaceShooterModel extends GameModel{
     /** The tile representing the player */
     private static final PlayerTile PLAYER_TILE = new PlayerTile();
 
-    /** The image representing the instancesList */
-    private static final ImageTile BULLET_TILE = new ImageTile(new ImageIcon("img/tile-bullet.png").getImage());
+    /** The tile representing the bullets */
+    private static final ImageTile BULLET_TILE = new ImageTile(BULLET_IMAGE);
+
+    /** The tile representing the green ufos */
+    private static final ImageTile GREEN_UFO_TILE = new ImageTile(GREEN_UFO_IMAGE);
 
     /** The position of the player. */
     private Position playerPosition;
@@ -68,6 +71,8 @@ public class SpaceShooterModel extends GameModel{
         // Player starter position
         this.playerPosition = new Position(gridSize.width / 2, gridSize.height / 4 * 3);
         setGameboardState(this.playerPosition, PLAYER_TILE);
+
+        GreenUfo testUfo = new GreenUfo(GREEN_UFO_TILE, new Position(gridSize.width/2, 0));
     }
 
     private boolean isPositionEmpty(final Position pos) {
@@ -139,24 +144,37 @@ public class SpaceShooterModel extends GameModel{
         tickCount++;
 
         handleKeyPress(lastKey);
+
         if (tickCount % 3 == 0 && !isOutOfBounds(getNextPlayerPosition()) && isPositionEmpty(getNextPlayerPosition())) {
             setGameboardState(playerPosition, BLANK_TILE);
             playerPosition = getNextPlayerPosition();
             setGameboardState(playerPosition, PLAYER_TILE);
+
+            for (GreenUfo ufo : GreenUfo.instancsList) {
+                if (ufo.getIsAlive()) {
+                    if (!isOutOfBounds(ufo.getNextPos()) && isPositionEmpty(ufo.getNextPos())) {
+                        setGameboardState(ufo.getPos(), BLANK_TILE);
+                        ufo.setPos(ufo.getNextPos());
+                        setGameboardState(ufo.getPos(), ufo.getTile());
+                    } else if (isOutOfBounds(ufo.getNextPos())) {
+                        setGameboardState(ufo.getPos(), BLANK_TILE);
+                        ufo.setIsAlive(false);
+                    }
+                }
+            }
         }
-        for(int i = 0; i < Bullet.instancesList.size(); i++){
-            Bullet bullet = Bullet.instancesList.get(i);
 
-
-            setGameboardState(bullet.getPos(), BLANK_TILE);
-            bullet.setPos(bullet.getNextPos());
-            if(!isOutOfBounds(bullet.getPos())) {
-                setGameboardState(bullet.getPos(), BULLET_TILE);
+        for (Bullet bullet : Bullet.instancesList){
+            if (bullet.getIsAlive()) {
+                setGameboardState(bullet.getPos(), BLANK_TILE);
+                bullet.setPos(bullet.getNextPos());
+                if (!isOutOfBounds(bullet.getPos())) {
+                    setGameboardState(bullet.getPos(), bullet.getTile());
+                }
+                if (isOutOfBounds(bullet.getPos())) {
+                    bullet.setIsAlive(false);
+                }
             }
-            if(isOutOfBounds(bullet.getPos())){
-                Bullet.instancesList.remove(i);
-            }
-
         }
     }
 }
