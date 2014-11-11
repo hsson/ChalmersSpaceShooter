@@ -121,8 +121,20 @@ public class SpaceShooterModel extends GameModel{
                 || pos.getY() < 0 || pos.getY() >= getGameboardSize().height;
     }
 
+    /**
+     * This method checks if two GameEntity objects are at
+     * the same position in the game.
+     *
+     * @param e1 The first GameEntity object.
+     * @param e2 The second GameEntity object.
+     *
+     * @return Returns true if the two specified GameEntity
+     * objects share the same position.
+     *
+     * @see lab1.GameEntity
+     * @see lab1.Position
+     * */
     private boolean isCollisionBetween(GameEntity e1, GameEntity e2) {
-        // TODO: Fix method
         if (e1 == null || e2 == null) {
             return false;
         }
@@ -145,13 +157,16 @@ public class SpaceShooterModel extends GameModel{
 
         handleKeyPress(lastKey);
 
+        // Everything within this if statement happens every third tick
         if (tickCount % 3 == 0) {
+            // Updates player position
             if (!isOutOfBounds(getNextPlayerPosition()) && isPositionEmpty(getNextPlayerPosition())) {
                 setGameboardState(playerPosition, BLANK_TILE);
                 playerPosition = getNextPlayerPosition();
                 setGameboardState(playerPosition, PLAYER_TILE);
             }
 
+            // Update logic for GreenUfo
             for (GreenUfo ufo : GreenUfo.instancsList) {
                 if (ufo.getIsAlive()) {
                     setGameboardState(ufo.getPos(), BLANK_TILE);
@@ -165,6 +180,7 @@ public class SpaceShooterModel extends GameModel{
             }
         }
 
+        // Update logic for Bullet
         for (Bullet bullet : Bullet.instancesList){
             if (bullet.getIsAlive()) {
                 setGameboardState(bullet.getPos(), BLANK_TILE);
