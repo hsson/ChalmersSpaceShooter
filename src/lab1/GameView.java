@@ -29,6 +29,9 @@ public class GameView extends JComponent {
 	/** Image representing the offscreen graphics */
 	private Image offscreenImage;
 
+    /** Background image for the game */
+    private ImageIcon bkgImage = new ImageIcon("img/space-bkg.gif");
+
 	/**
 	 * Creates a view where each GameObject has side length 40 pixels..
 	 */
@@ -90,6 +93,7 @@ public class GameView extends JComponent {
 		super.paintComponent(g);
 		g.setColor(this.getBackground());
 		g.fillRect(0, 0, getWidth(), getHeight());
+        g.drawImage(bkgImage.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
 
 		if (this.model != null) {
 
