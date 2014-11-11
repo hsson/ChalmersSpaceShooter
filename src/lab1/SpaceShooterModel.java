@@ -151,6 +151,21 @@ public class SpaceShooterModel extends GameModel{
         }
     }
 
+    private void performCollisionCheck() {
+        for (int i = 0; i < GameEntity.allGameEntities.size(); i++) {
+            GameEntity e1 = GameEntity.allGameEntities.get(i);
+            for (int j = 0; j < GameEntity.allGameEntities.size(); j++) {
+                GameEntity e2 = GameEntity.allGameEntities.get(j);
+
+                if (e1 != e2 && e1.getIsAlive() && e2.getIsAlive() && isCollisionBetween(e1, e2)) {
+                    e1.setIsAlive(false);
+                    e2.setIsAlive(false);
+                    setGameboardState(e1.getPos(), BLANK_TILE);
+                }
+            }
+        }
+    }
+
     @Override
     public void gameUpdate(int lastKey) throws GameOverException {
         tickCount++;
@@ -179,6 +194,10 @@ public class SpaceShooterModel extends GameModel{
                 }
             }
         }
+
+        // Must happen between things that happen every third tick and things that happen
+        // every tick. Or else there is a possibility for objects passing each other.
+        performCollisionCheck();
 
         // Update logic for Bullet
         for (Bullet bullet : Bullet.instancesList){
