@@ -195,6 +195,8 @@ public class SpaceShooterModel extends GameModel{
             }
         }
 
+        performCollisionCheck();
+
         // Update logic for Bullet
         for (Bullet bullet : Bullet.instancesList){
             if (bullet.getIsAlive()) {
