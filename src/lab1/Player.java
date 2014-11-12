@@ -1,8 +1,5 @@
 package lab1;
 
-/**
- * Created by Kevin on 2014-11-06.
- */
 public class Player extends GameEntityImplementation{
 
     /** The direction of the player. */
