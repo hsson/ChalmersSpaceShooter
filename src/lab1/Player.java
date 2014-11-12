@@ -2,8 +2,11 @@ package lab1;
 
 public class Player extends GameEntityImplementation{
 
-    /** The direction of the player. */
+    /** The starting direction of the player. */
     private Directions playerDirection = Directions.NORTH;
+
+    // Starting health
+    private int health = 5;
 
     public enum Directions {
         EAST(1, 0),
@@ -43,6 +46,14 @@ public class Player extends GameEntityImplementation{
 
     public Directions getDirection(){
         return playerDirection;
+    }
+
+    public void decreaseHealth(int amount) {
+        this.health -= amount;
+    }
+
+    public int getHealth() {
+        return this.health;
     }
 
     /**
