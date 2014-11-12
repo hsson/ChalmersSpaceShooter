@@ -19,7 +19,7 @@ abstract class GameEntityImplementation implements GameEntity {
     }
 
     public Position getNextPos(){
-        return new Position(entityPosition.getX(), entityPosition.getY() + 1);
+        return new Position(entityPosition.getX(), entityPosition.getY());
     }
 
     public boolean getIsAlive() {
