@@ -40,8 +40,22 @@ public class Player extends GameEntityImplementation{
         this(tile, new Position(1,1));
     }
 
-    public Position getNextPos(){
-        return new Position(pos.getX(), pos.getY() + 1);
+    public void setDirection(Directions dir){
+        playerDirection = dir;
+    }
+
+    public Directions getDirection(){
+        return playerDirection;
+    }
+
+    /**
+     * Get next position of the player.
+     */
+    @Override
+    public Position getNextPos() {
+        return new Position(
+                super.getPos().getX() + this.playerDirection.getXDelta(),
+                super.getPos().getY() + this.playerDirection.getYDelta());
     }
 
 }
