@@ -6,13 +6,15 @@ import java.awt.event.KeyEvent;
 
 public class SpaceShooterModel extends GameModel{
 
-    static private int tickCount = 0;
+    private static int tickCount = 0;
+    private static int score = 0;
 
     /** A list of images to be used in the game */
 
     private static final Image PLAYER_IMAGE = new ImageIcon("img/tile-spaceship.png").getImage();
     private static final Image GREEN_UFO_IMAGE = new ImageIcon("img/tile-greenufo.png").getImage();
     private static final Image BULLET_IMAGE = new ImageIcon("img/tile-bullet.png").getImage();
+    private static final Image MENU_BAR_IMAGE = new ImageIcon("img/tile-menu.png").getImage();
 
     /** END OF IMAGE LIST */
 
@@ -28,6 +30,13 @@ public class SpaceShooterModel extends GameModel{
     /** The tile representing the green ufos */
     private static final ImageTile GREEN_UFO_TILE = new ImageTile(GREEN_UFO_IMAGE);
 
+    /** The tiles representing the menu bar*/
+    private static final MenuTile MENU_BLANK = new MenuTile(MENU_BAR_IMAGE);
+    private static final MenuTile MENU_SCORE_LABEL = new MenuTile("Score:", MENU_BAR_IMAGE);
+    private static final MenuTile MENU_HEALTH_LABEL = new MenuTile("Health:", MENU_BAR_IMAGE);
+    private MenuTile menuScoreTile = new MenuTile(MENU_BAR_IMAGE);
+    private MenuTile menuHealthTile = new MenuTile(MENU_BAR_IMAGE);
+
     Player player;
 
     public SpaceShooterModel() {
@@ -39,6 +48,15 @@ public class SpaceShooterModel extends GameModel{
                 setGameboardState(i, j, BLANK_TILE);
             }
         }
+
+        for(int i = 0; i < getGameboardSize().getWidth(); i++){
+            setGameboardState(i, (int)getGameboardSize().getHeight()-1, MENU_BLANK);
+        }
+        setGameboardState(0,(int)getGameboardSize().getHeight()-1, MENU_HEALTH_LABEL);
+        setGameboardState(1,(int)getGameboardSize().getHeight()-1, menuHealthTile);
+        setGameboardState(2,(int)getGameboardSize().getHeight()-1, MENU_SCORE_LABEL);
+        setGameboardState(3,(int)getGameboardSize().getHeight()-1, menuScoreTile);
+
         GreenUfo testUfo = new GreenUfo(GREEN_UFO_TILE, new Position(gridSize.width/2, 0));
     }
 
@@ -75,7 +93,7 @@ public class SpaceShooterModel extends GameModel{
 
     private boolean isOutOfBounds(Position pos) {
         return pos.getX() < 0 || pos.getX() >= getGameboardSize().width
-                || pos.getY() < 0 || pos.getY() >= getGameboardSize().height;
+                || pos.getY() < 0 || pos.getY() >= getGameboardSize().height-1;
     }
 
     /**
@@ -126,6 +144,10 @@ public class SpaceShooterModel extends GameModel{
     @Override
     public void gameUpdate(int lastKey) throws GameOverException {
         tickCount++;
+
+        //Update score and health
+        menuScoreTile.setText(Integer.toString(score));
+        menuHealthTile.setText(Integer.toString(player.getHealth()));
 
         handleKeyPress(lastKey);
 
