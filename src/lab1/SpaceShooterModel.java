@@ -8,6 +8,30 @@ public class SpaceShooterModel extends GameModel{
 
     static private int tickCount = 0;
 
+    public enum Directions {
+        EAST(1, 0),
+        WEST(-1, 0),
+        NORTH(0, -1),
+        SOUTH(0, 1),
+        NONE(0, 0);
+
+        private final int xDelta;
+        private final int yDelta;
+
+        Directions(final int xDelta, final int yDelta) {
+            this.xDelta = xDelta;
+            this.yDelta = yDelta;
+        }
+
+        public int getXDelta() {
+            return this.xDelta;
+        }
+
+        public int getYDelta() {
+            return this.yDelta;
+        }
+    }
+
     /** A list of images to be used in the game */
 
     private static final Image PLAYER_IMAGE = new ImageIcon("img/tile-spaceship.png").getImage();
@@ -20,7 +44,7 @@ public class SpaceShooterModel extends GameModel{
     private static final GameTile BLANK_TILE = new GameTile();
 
     /** The tile representing the player */
-    private static final ImageTile PLAYER_TILE = new ImageTile(PLAYER_IMAGE);
+    private static final PlayerTile PLAYER_TILE = new PlayerTile();
 
     /** The tile representing the bullets */
     private static final ImageTile BULLET_TILE = new ImageTile(BULLET_IMAGE);
@@ -28,19 +52,25 @@ public class SpaceShooterModel extends GameModel{
     /** The tile representing the green ufos */
     private static final ImageTile GREEN_UFO_TILE = new ImageTile(GREEN_UFO_IMAGE);
 
-    Player player;
+    /** The position of the player. */
+    private Position playerPosition;
 
+    /** The direction of the player. */
+    private Directions playerDirection = Directions.NORTH;
 
     public SpaceShooterModel() {
         Dimension gridSize = getGameboardSize();
-        //Player starter position
-        player = new Player(PLAYER_TILE, new Position(gridSize.width / 2, gridSize.height / 4 * 3));
+
         // Fill the grid with blank tiles
         for (int i = 0; i < gridSize.width; i++) {
             for (int j = 0; j < gridSize.height; j++) {
                 setGameboardState(i, j, BLANK_TILE);
             }
         }
+
+        // Player starter position
+        this.playerPosition = new Position(gridSize.width / 2, gridSize.height / 4 * 3);
+        setGameboardState(this.playerPosition, PLAYER_TILE);
 
         GreenUfo testUfo = new GreenUfo(GREEN_UFO_TILE, new Position(gridSize.width/2, 0));
     }
@@ -55,20 +85,20 @@ public class SpaceShooterModel extends GameModel{
     private void handleKeyPress(final int key) {
         switch (key) {
             case KeyEvent.VK_LEFT:
-                player.setDirection(Player.Directions.WEST);
+                this.playerDirection = Directions.WEST;
                 break;
             case KeyEvent.VK_UP:
-                player.setDirection(Player.Directions.NORTH);
+                this.playerDirection = Directions.NORTH;
                 break;
             case KeyEvent.VK_RIGHT:
-                player.setDirection(Player.Directions.EAST);
+                this.playerDirection = Directions.EAST;
                 break;
             case KeyEvent.VK_DOWN:
-                player.setDirection(Player.Directions.SOUTH);
+                this.playerDirection = Directions.SOUTH;
                 break;
             case KeyEvent.VK_SPACE:
                 // TODO: Shoot here
-                Bullet bullet = new Bullet(new Position(player.getPos().getX(), player.getPos().getY()-1), BULLET_TILE);
+                Bullet bullet = new Bullet(new Position(playerPosition.getX(), playerPosition.getY()-1), BULLET_TILE);
                 setGameboardState(bullet.getPos().getX(), bullet.getPos().getY(), BULLET_TILE);
                 break;
             default:
@@ -77,7 +107,14 @@ public class SpaceShooterModel extends GameModel{
         }
     }
 
-
+    /**
+     * Get next position of the player.
+     */
+    private Position getNextPlayerPosition() {
+        return new Position(
+                this.playerPosition.getX() + this.playerDirection.getXDelta(),
+                this.playerPosition.getY() + this.playerDirection.getYDelta());
+    }
 
     private boolean isOutOfBounds(Position pos) {
         return pos.getX() < 0 || pos.getX() >= getGameboardSize().width
@@ -138,10 +175,10 @@ public class SpaceShooterModel extends GameModel{
         // Everything within this if statement happens every third tick
         if (tickCount % 3 == 0) {
             // Updates player position
-            if (!isOutOfBounds(player.getNextPos()) && isPositionEmpty(player.getNextPos())) {
-                setGameboardState(player.getPos(), BLANK_TILE);
-                player.setPos(player.getNextPos());
-                setGameboardState(player.getPos(), PLAYER_TILE);
+            if (!isOutOfBounds(getNextPlayerPosition()) && isPositionEmpty(getNextPlayerPosition())) {
+                setGameboardState(playerPosition, BLANK_TILE);
+                playerPosition = getNextPlayerPosition();
+                setGameboardState(playerPosition, PLAYER_TILE);
             }
 
             // Update logic for GreenUfo
