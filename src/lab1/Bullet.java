@@ -2,45 +2,20 @@ package lab1;
 
 import java.util.*;
 
-public class Bullet implements GameEntity{
-    private ImageTile tile;
-    private Position pos;
+public class Bullet extends GameEntityImplementation{
     public static ArrayList<Bullet> instancesList = new ArrayList<Bullet>();
-    private boolean isAlive;
 
-    public Bullet(Position pos, ImageTile tile){
-        this.tile = tile;
-        this.pos = pos;
+    public Bullet(ImageTile imageTile, Position bulletPosition){
+        super(imageTile, bulletPosition);
         instancesList.add(this);
-        GameEntity.allGameEntities.add(this);
-        isAlive = true;
     }
 
-    public Bullet(ImageTile tile){
-        this.tile = tile;
+    public Bullet(ImageTile imageTile){
+        super(imageTile);
     }
 
+    @Override
     public Position getNextPos(){
-        return new Position(pos.getX(), pos.getY()-1);
-    }
-
-    public ImageTile getTile(){
-        return tile;
-    }
-
-    public void setPos(Position pos){
-        this.pos = pos;
-    }
-
-    public Position getPos(){
-        return pos;
-    }
-
-    public boolean getIsAlive() {
-        return this.isAlive;
-    }
-
-    public void setIsAlive(boolean isAlive) {
-        this.isAlive = isAlive;
+        return new Position(super.getPos().getX(), super.getPos().getY() - 1);
     }
 }

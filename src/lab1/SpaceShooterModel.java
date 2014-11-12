@@ -98,8 +98,8 @@ public class SpaceShooterModel extends GameModel{
                 break;
             case KeyEvent.VK_SPACE:
                 // TODO: Shoot here
-                Bullet bullet = new Bullet(new Position(playerPosition.getX(), playerPosition.getY()-1), BULLET_TILE);
-                setGameboardState(bullet.getPos().getX(), bullet.getPos().getY(), BULLET_TILE);
+                Bullet bullet = new Bullet(BULLET_TILE, new Position(playerPosition.getX(), playerPosition.getY() - 1));
+                setGameboardState(bullet.getPos(), BULLET_TILE);
                 break;
             default:
                 // Don't change direction if another key is pressed
