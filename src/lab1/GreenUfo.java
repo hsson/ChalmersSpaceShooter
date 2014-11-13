@@ -16,6 +16,12 @@ public class GreenUfo extends GameEntityImplementation {
         instancesList.add(this);
     }
 
+    public void collisionEvent(Object collidedObject){
+        if(collidedObject instanceof Bullet){
+            setIsAlive(false);
+        }
+    }
+
     @Override
     public Position getNextPos(){
         return new Position(super.getPos().getX(), super.getPos().getY() + 1);
