@@ -13,8 +13,10 @@ public class SpaceShooterModel extends GameModel{
 
     private static final Image PLAYER_IMAGE = new ImageIcon("img/tile-spaceship.png").getImage();
     private static final Image GREEN_UFO_IMAGE = new ImageIcon("img/tile-greenufo.png").getImage();
+    private static final Image RED_UFO_IMAGE = new ImageIcon("img/tile-redufo.png").getImage();
     private static final Image BULLET_IMAGE = new ImageIcon("img/tile-bullet.png").getImage();
     private static final Image MENU_BAR_IMAGE = new ImageIcon("img/tile-menu.png").getImage();
+
 
     /** END OF IMAGE LIST */
 
@@ -29,6 +31,7 @@ public class SpaceShooterModel extends GameModel{
 
     /** The tile representing the green ufos */
     private static final ImageTile GREEN_UFO_TILE = new ImageTile(GREEN_UFO_IMAGE);
+    private static final ImageTile RED_UFO_TILE = new ImageTile(RED_UFO_IMAGE);
 
     /** The tiles representing the menu bar*/
     private static final MenuTile MENU_BLANK = new MenuTile(MENU_BAR_IMAGE);
@@ -58,6 +61,7 @@ public class SpaceShooterModel extends GameModel{
         setGameboardState(3,(int)getGameboardSize().getHeight()-1, menuScoreTile);
 
         GreenUfo testUfo = new GreenUfo(GREEN_UFO_TILE, new Position(gridSize.width/2, 0));
+        RedUfo testUfo2 = new RedUfo(RED_UFO_TILE, new Position(gridSize.width/2, 3));
     }
 
     private boolean isPositionEmpty(final Position pos) {
