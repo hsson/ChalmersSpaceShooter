@@ -14,6 +14,7 @@ public class SpaceShooterModel extends GameModel{
     private static final Image PLAYER_IMAGE = new ImageIcon("img/tile-spaceship.png").getImage();
     private static final Image GREEN_UFO_IMAGE = new ImageIcon("img/tile-greenufo.png").getImage();
     private static final Image RED_UFO_IMAGE = new ImageIcon("img/tile-redufo.png").getImage();
+    private static final Image GHOST_IMAGE = new ImageIcon("img/tile-ghost.png").getImage();
     private static final Image BULLET_IMAGE = new ImageIcon("img/tile-bullet.png").getImage();
     private static final Image MENU_BAR_IMAGE = new ImageIcon("img/tile-menu.png").getImage();
 
@@ -29,9 +30,11 @@ public class SpaceShooterModel extends GameModel{
     /** The tile representing the bullets */
     private static final ImageTile BULLET_TILE = new ImageTile(BULLET_IMAGE);
 
-    /** The tile representing the green ufos */
+    /** The tile representing the monsters */
     private static final ImageTile GREEN_UFO_TILE = new ImageTile(GREEN_UFO_IMAGE);
     private static final ImageTile RED_UFO_TILE = new ImageTile(RED_UFO_IMAGE);
+    private static final ImageTile GHOST_TILE = new ImageTile(GHOST_IMAGE);
+
 
     /** The tiles representing the menu bar*/
     private static final MenuTile MENU_BLANK = new MenuTile(MENU_BAR_IMAGE);
@@ -60,8 +63,13 @@ public class SpaceShooterModel extends GameModel{
         setGameboardState(2,(int)getGameboardSize().getHeight()-1, MENU_SCORE_LABEL);
         setGameboardState(3,(int)getGameboardSize().getHeight()-1, menuScoreTile);
 
+        /*  TEST SPAWNING OF MONSTERS   */
         GreenUfo testUfo = new GreenUfo(GREEN_UFO_TILE, new Position(gridSize.width/2, 0));
-        RedUfo testUfo2 = new RedUfo(RED_UFO_TILE, new Position(gridSize.width/2, 3));
+        RedUfo testUfo2 = new RedUfo(RED_UFO_TILE, new Position(3, 0));
+        Ghost testGhost = new Ghost(GHOST_TILE, new Position(4, 0));
+        setGameboardState(testGhost.getPos(), testGhost.getTile());
+        setGameboardState(testUfo2.getPos(), testUfo2.getTile());
+        /**********************************/
     }
 
     private boolean isPositionEmpty(final Position pos) {
@@ -137,9 +145,32 @@ public class SpaceShooterModel extends GameModel{
                 GameEntity e2 = GameEntity.allGameEntities.get(j);
 
                 if (e1 != e2 && e1.getIsAlive() && e2.getIsAlive() && isCollisionBetween(e1, e2)) {
+                    if(e1 instanceof RedUfo){
+                        ((RedUfo) e1).collisionAction(e2);
+                        if(e1.getIsAlive())
+                            setGameboardState(e1.getPos(), e1.getTile());
+                        else
+                            setGameboardState(e1.getPos(), BLANK_TILE);
+                    }else if(e1 instanceof GreenUfo){
+                        ((GreenUfo) e1).collisionAction(e2);
+                        if(e1.getIsAlive())
+                            setGameboardState(e1.getPos(), e1.getTile());
+                        else
+                            setGameboardState(e1.getPos(), BLANK_TILE);
+                    }else if(e1 instanceof Ghost){
+                        ((Ghost) e1).collisionAction(e2);
+                        if(e1.getIsAlive())
+                            setGameboardState(e1.getPos(), e1.getTile());
+                        else
+                            setGameboardState(e1.getPos(), BLANK_TILE);
+                    }
+
+                    /*
                     e1.setIsAlive(false);
                     e2.setIsAlive(false);
+
                     setGameboardState(e1.getPos(), BLANK_TILE);
+                    */
                 }
             }
         }
@@ -176,6 +207,32 @@ public class SpaceShooterModel extends GameModel{
                     }
                 }
             }
+
+            // Update logic for RedUfo
+            for (RedUfo ufo : RedUfo.instancesList) {
+                if (ufo.getIsAlive()) {
+                    setGameboardState(ufo.getPos(), BLANK_TILE);
+                    ufo.setPos(ufo.getNextPos());
+                    if (!isOutOfBounds(ufo.getPos())) {
+                        setGameboardState(ufo.getPos(), ufo.getTile());
+                    } else {
+                        ufo.setIsAlive(false);
+                    }
+                }
+            }
+
+            // Update logic for Ghost
+            for (Ghost ghost : Ghost.instancesList) {
+                if (ghost.getIsAlive()) {
+                    setGameboardState(ghost.getPos(), BLANK_TILE);
+                    ghost.setPos(ghost.getNextPos());
+                    if (!isOutOfBounds(ghost.getPos())) {
+                        setGameboardState(ghost.getPos(), ghost.getTile());
+                    } else {
+                        ghost.setIsAlive(false);
+                    }
+                }
+            }
         }
 
         performCollisionCheck();
@@ -194,5 +251,6 @@ public class SpaceShooterModel extends GameModel{
         }
 
         performCollisionCheck();
+
     }
 }

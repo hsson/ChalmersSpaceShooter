@@ -17,13 +17,25 @@ public class GreenUfo extends GameEntityImplementation {
         instancesList.add(this);
     }
 
+    public void collisionAction(Object collidedWith){
+        if(collidedWith instanceof Bullet){
+            decreaseHealth(1);
+            ((Bullet) collidedWith).setIsAlive(false);
+            if(getHp() < 1) {
+                setIsAlive(false);
+            }
+        }else if(collidedWith instanceof Player){
+            //TODO: What happens when it collides with the player?
+        }
+    }
+
     public int getHp(){
         return hp;
     }
 
-    public void decreaseHp(int deceasement){
-        hp = hp - deceasement;
-    }
+    public void decreaseHealth(int deceasement){
+             hp = hp - deceasement;
+         }
 
     @Override
     public Position getNextPos(){
