@@ -32,7 +32,7 @@ public class Ghost extends GameEntityImplementation{
                     setIsAlive(false);
                 }
             }
-        }else if(collidedWith instanceof Player){
+        }else if(collidedWith instanceof Player && SpaceShooterModel.tickCount % 3 == 0){
             ((Player)collidedWith).decreaseHealth(1);
             this.decreaseHealth(1);
 

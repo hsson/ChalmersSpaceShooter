@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 
 public class SpaceShooterModel extends GameModel{
 
-    private static int tickCount = 0;
+    public static int tickCount = 0;
     private static int score = 0;
 
     /** A list of images to be used in the game */
@@ -243,7 +243,7 @@ public class SpaceShooterModel extends GameModel{
             }
         }
 
-        performCollisionCheck();
+        //performCollisionCheck();
 
         // Update logic for Bullet
         for (Bullet bullet : Bullet.instancesList){

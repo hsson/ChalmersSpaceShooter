@@ -26,7 +26,7 @@ public class RedUfo extends GameEntityImplementation {
                 SpaceShooterModel.increaseScore(SCORE);
                 setIsAlive(false);
             }
-        }else if(collidedWith instanceof Player){
+        }else if(collidedWith instanceof Player && SpaceShooterModel.tickCount % 3 == 0){
             ((Player) collidedWith).decreaseHealth(1);
             this.decreaseHealth(1);
             if(getHp() <= 0){
