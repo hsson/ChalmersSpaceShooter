@@ -6,6 +6,7 @@ public class GreenUfo extends GameEntityImplementation {
 
     public static ArrayList<GreenUfo> instancesList = new ArrayList<GreenUfo>();
     private int hp = 5;
+    private static final int SCORE = 1;
 
     public GreenUfo(ImageTile imageTile) {
         super(imageTile);
@@ -21,13 +22,15 @@ public class GreenUfo extends GameEntityImplementation {
         if(collidedWith instanceof Bullet){
             decreaseHealth(1);
             ((Bullet) collidedWith).setIsAlive(false);
-            if(getHp() < 1) {
+            if(getHp() <= 0) {
+                SpaceShooterModel.increaseScore(SCORE);
                 setIsAlive(false);
             }
         }else if(collidedWith instanceof Player){
             ((Player) collidedWith).decreaseHealth(1);
             this.decreaseHealth(1);
-            if(getHp()<1){
+            if(getHp() <= 0){
+                SpaceShooterModel.increaseScore(SCORE);
                 this.setIsAlive(false);
             }
         }

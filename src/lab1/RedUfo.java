@@ -6,6 +6,7 @@ public class RedUfo extends GameEntityImplementation {
 
     public static ArrayList<RedUfo> instancesList = new ArrayList<RedUfo>();
     private int hp = 5;
+    private static final int SCORE = 3;
 
     public RedUfo(ImageTile imageTile) {
         super(imageTile);
@@ -21,11 +22,17 @@ public class RedUfo extends GameEntityImplementation {
         if(collidedWith instanceof Bullet){
             decreaseHealth(1);
             ((Bullet) collidedWith).setIsAlive(false);
-            if(getHp() < 1) {
+            if(getHp() <= 0) {
+                SpaceShooterModel.increaseScore(SCORE);
                 setIsAlive(false);
             }
         }else if(collidedWith instanceof Player){
-            //TODO: What happens when it collides with the player?
+            ((Player) collidedWith).decreaseHealth(1);
+            this.decreaseHealth(1);
+            if(getHp() <= 0){
+                SpaceShooterModel.increaseScore(SCORE);
+                this.setIsAlive(false);
+            }
         }
     }
 

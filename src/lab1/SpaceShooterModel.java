@@ -51,6 +51,7 @@ public class SpaceShooterModel extends GameModel{
         RedUfo.instancesList.clear();
         Ghost.instancesList.clear();
         Bullet.instancesList.clear();
+        score = 0;
 
         Dimension gridSize = getGameboardSize();
         player = new Player(PLAYER_TILE, new Position(gridSize.width / 2, gridSize.height / 4 * 3));

@@ -8,6 +8,7 @@ public class Ghost extends GameEntityImplementation{
     private int hp = 1;
     Random gen;
     private int tickcount = 0;
+    private static final int SCORE = 3;
 
     public Ghost(ImageTile imageTile) {
         super(imageTile);
@@ -27,6 +28,7 @@ public class Ghost extends GameEntityImplementation{
                 decreaseHealth(1);
                 ((Bullet) collidedWith).setIsAlive(false);
                 if (getHp() <= 0) {
+                    SpaceShooterModel.increaseScore(SCORE);
                     setIsAlive(false);
                 }
             }
@@ -35,6 +37,7 @@ public class Ghost extends GameEntityImplementation{
             this.decreaseHealth(1);
 
             if (this.hp <= 0) {
+                SpaceShooterModel.increaseScore(SCORE);
                 this.setIsAlive(false);
             }
         }
