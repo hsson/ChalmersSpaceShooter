@@ -232,7 +232,7 @@ public class SpaceShooterModel extends GameModel{
             for (Ghost ghost : Ghost.instancesList) {
                 if (ghost.getIsAlive()) {
                     setGameboardState(ghost.getPos(), BLANK_TILE);
-                    ghost.setPos(ghost.getNextPos());
+                    ghost.setPos(ghost.getNextPos(player.getPos()));
                     if (!isOutOfBounds(ghost.getPos())) {
                         setGameboardState(ghost.getPos(), ghost.getTile());
                     } else {
