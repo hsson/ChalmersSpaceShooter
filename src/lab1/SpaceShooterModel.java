@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 public class SpaceShooterModel extends GameModel{
 
     private static int tickCount = 0;
-    private int score = 0;
+    private static int score = 0;
 
     /** A list of images to be used in the game */
 
@@ -109,12 +109,12 @@ public class SpaceShooterModel extends GameModel{
         }
     }
 
-    public int getScore() {
-        return this.score;
+    public static int getScore() {
+        return score;
     }
 
-    public void increaseScore(int amount) {
-        this.score += amount;
+    public static void increaseScore(int amount) {
+        core += amount;
     }
 
     private boolean isOutOfBounds(Position pos) {
