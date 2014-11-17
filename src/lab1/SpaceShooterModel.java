@@ -114,7 +114,7 @@ public class SpaceShooterModel extends GameModel{
     }
 
     public static void increaseScore(int amount) {
-        core += amount;
+        score += amount;
     }
 
     private boolean isOutOfBounds(Position pos) {
