@@ -30,7 +30,7 @@ public class SpaceShooterModel extends GameModel{
     /** The tile representing the bullets */
     private static final ImageTile BULLET_TILE = new ImageTile(BULLET_IMAGE);
 
-    /** The tile representing the monsters */
+    /** The tile representing the green ufos */
     private static final ImageTile GREEN_UFO_TILE = new ImageTile(GREEN_UFO_IMAGE);
     private static final ImageTile RED_UFO_TILE = new ImageTile(RED_UFO_IMAGE);
     private static final ImageTile GHOST_TILE = new ImageTile(GHOST_IMAGE);

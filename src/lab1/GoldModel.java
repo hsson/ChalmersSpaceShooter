@@ -58,8 +58,7 @@ public class GoldModel extends GameModel {
 			new Color(255, 255, 0), 2.0);
 
 	/** Graphical representation of the collector */
-	private static final GameTile COLLECTOR_TILE = new RoundTile(Color.BLACK,
-			Color.RED, 2.0);
+	private static final GameTile COLLECTOR_TILE = new RoundTile(Color.black, Color.red, 2.0);
 
 	/** Graphical representation of a blank tile. */
 	private static final GameTile BLANK_TILE = new GameTile();

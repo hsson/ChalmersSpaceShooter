@@ -94,4 +94,7 @@ abstract class GameEntityImplementation implements GameEntity {
         return this.imageTile;
     }
 
+    public void collisionEvent(Object collideObject){
+
+    }
 }

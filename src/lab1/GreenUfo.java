@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class GreenUfo extends GameEntityImplementation {
 
     public static ArrayList<GreenUfo> instancesList = new ArrayList<GreenUfo>();
-    private int hp = 1;
+    private int hp = 5;
 
     public GreenUfo(ImageTile imageTile) {
         super(imageTile);
@@ -25,7 +25,11 @@ public class GreenUfo extends GameEntityImplementation {
                 setIsAlive(false);
             }
         }else if(collidedWith instanceof Player){
-            //TODO: What happens when it collides with the player?
+            ((Player) collidedWith).decreaseHealth(1);
+            this.decreaseHealth(1);
+            if(getHp()<1){
+                this.setIsAlive(false);
+            }
         }
     }
 
@@ -36,6 +40,20 @@ public class GreenUfo extends GameEntityImplementation {
     public void decreaseHealth(int deceasement){
              hp = hp - deceasement;
          }
+
+    public void collisionEvent(Object collidedObject){
+        if(collidedObject instanceof Bullet){
+            if(getHp() > 0){
+                decreaseHealth(1);
+            }else{
+                setIsAlive(false);
+            }
+            ((Bullet) collidedObject).setIsAlive(false);
+        }else if(collidedObject instanceof Player){
+            setIsAlive(false);
+            ((Player) collidedObject).decreaseHealth(1);
+        }
+    }
 
     @Override
     public Position getNextPos(){
