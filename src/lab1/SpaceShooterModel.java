@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 public class SpaceShooterModel extends GameModel{
 
     private static int tickCount = 0;
-    private static int score = 0;
+    private int score = 0;
 
     /** A list of images to be used in the game */
 
@@ -46,6 +46,12 @@ public class SpaceShooterModel extends GameModel{
     Player player;
 
     public SpaceShooterModel() {
+        GameEntity.allGameEntities.clear();
+        GreenUfo.instancesList.clear();
+        RedUfo.instancesList.clear();
+        Ghost.instancesList.clear();
+        Bullet.instancesList.clear();
+
         Dimension gridSize = getGameboardSize();
         player = new Player(PLAYER_TILE, new Position(gridSize.width / 2, gridSize.height / 4 * 3));
         // Fill the grid with blank tiles
@@ -101,6 +107,14 @@ public class SpaceShooterModel extends GameModel{
                 // Don't change direction if another key is pressed
                 break;
         }
+    }
+
+    public int getScore() {
+        return this.score;
+    }
+
+    public void increaseScore(int amount) {
+        this.score += amount;
     }
 
     private boolean isOutOfBounds(Position pos) {
@@ -164,13 +178,6 @@ public class SpaceShooterModel extends GameModel{
                         else
                             setGameboardState(e1.getPos(), BLANK_TILE);
                     }
-
-                    /*
-                    e1.setIsAlive(false);
-                    e2.setIsAlive(false);
-
-                    setGameboardState(e1.getPos(), BLANK_TILE);
-                    */
                 }
             }
         }
