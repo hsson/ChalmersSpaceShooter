@@ -25,15 +25,20 @@ public class Ghost extends GameEntityImplementation{
 
     public void collisionAction(Object collidedWith){
         if(collidedWith instanceof Bullet){
-            if(gen.nextBoolean()) {
+            if(gen.nextFloat() <= 0.25) {
                 decreaseHealth(1);
                 ((Bullet) collidedWith).setIsAlive(false);
-                if (getHp() < 1) {
+                if (getHp() <= 0) {
                     setIsAlive(false);
                 }
             }
         }else if(collidedWith instanceof Player){
-            //TODO: What happens when it collides with the player?
+            ((Player)collidedWith).decreaseHealth(1);
+            this.decreaseHealth(1);
+
+            if (this.hp <= 0) {
+                this.setIsAlive(false);
+            }
         }
     }
 
@@ -47,7 +52,7 @@ public class Ghost extends GameEntityImplementation{
 
     @Override
     public Position getNextPos(){
-        return new Position(super.getPos().getX(), super.getPos().getY() + 2);
+        return new Position(super.getPos().getX(), super.getPos().getY() + 1);
     }
 
 
