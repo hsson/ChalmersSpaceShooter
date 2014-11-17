@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class GreenUfo extends GameEntityImplementation {
 
     public static ArrayList<GreenUfo> instancesList = new ArrayList<GreenUfo>();
-    private int hp = 5;
+    private int hp = 1;
     private static final int SCORE = 1;
 
     public GreenUfo(ImageTile imageTile) {

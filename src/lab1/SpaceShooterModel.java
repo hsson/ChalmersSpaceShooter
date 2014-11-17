@@ -12,9 +12,6 @@ public class SpaceShooterModel extends GameModel{
     /** A list of images to be used in the game */
 
     private static final Image PLAYER_IMAGE = new ImageIcon("img/tile-spaceship.png").getImage();
-    private static final Image GREEN_UFO_IMAGE = new ImageIcon("img/tile-greenufo.png").getImage();
-    private static final Image RED_UFO_IMAGE = new ImageIcon("img/tile-redufo.png").getImage();
-    private static final Image GHOST_IMAGE = new ImageIcon("img/tile-ghost.png").getImage();
     private static final Image BULLET_IMAGE = new ImageIcon("img/tile-bullet.png").getImage();
     private static final Image MENU_BAR_IMAGE = new ImageIcon("img/tile-menu.png").getImage();
 
@@ -30,12 +27,6 @@ public class SpaceShooterModel extends GameModel{
     /** The tile representing the bullets */
     private static final ImageTile BULLET_TILE = new ImageTile(BULLET_IMAGE);
 
-    /** The tile representing the green ufos */
-    private static final ImageTile GREEN_UFO_TILE = new ImageTile(GREEN_UFO_IMAGE);
-    private static final ImageTile RED_UFO_TILE = new ImageTile(RED_UFO_IMAGE);
-    private static final ImageTile GHOST_TILE = new ImageTile(GHOST_IMAGE);
-
-
     /** The tiles representing the menu bar*/
     private static final MenuTile MENU_BLANK = new MenuTile(MENU_BAR_IMAGE);
     private static final MenuTile MENU_SCORE_LABEL = new MenuTile("Score:", MENU_BAR_IMAGE);
@@ -44,6 +35,15 @@ public class SpaceShooterModel extends GameModel{
     private MenuTile menuHealthTile = new MenuTile(MENU_BAR_IMAGE);
 
     Player player;
+
+
+    /*MonsterSpawnTile[] monsterTiles = {new MonsterSpawnTile(0,0), new MonsterSpawnTile(1,0), new MonsterSpawnTile(2,0),
+            new MonsterSpawnTile(3,0), new MonsterSpawnTile(4,0), new MonsterSpawnTile(5,0), new MonsterSpawnTile(6,0),
+            new MonsterSpawnTile(7,0), new MonsterSpawnTile(8,0), new MonsterSpawnTile(9,0), new MonsterSpawnTile(10,0),
+            new MonsterSpawnTile(11,0), new MonsterSpawnTile(12,0), new MonsterSpawnTile(13,0), new MonsterSpawnTile(14,0)
+            , new MonsterSpawnTile(15,0)};*/
+
+    MonsterSpawnTile monsterTile = new MonsterSpawnTile(0,0);
 
     public SpaceShooterModel() {
         GameEntity.allGameEntities.clear();
@@ -65,18 +65,11 @@ public class SpaceShooterModel extends GameModel{
         for(int i = 0; i < getGameboardSize().getWidth(); i++){
             setGameboardState(i, (int)getGameboardSize().getHeight()-1, MENU_BLANK);
         }
+
         setGameboardState(0,(int)getGameboardSize().getHeight()-1, MENU_HEALTH_LABEL);
         setGameboardState(1,(int)getGameboardSize().getHeight()-1, menuHealthTile);
         setGameboardState(2,(int)getGameboardSize().getHeight()-1, MENU_SCORE_LABEL);
         setGameboardState(3,(int)getGameboardSize().getHeight()-1, menuScoreTile);
-
-        /*  TEST SPAWNING OF MONSTERS   */
-        GreenUfo testUfo = new GreenUfo(GREEN_UFO_TILE, new Position(gridSize.width/2, 0));
-        RedUfo testUfo2 = new RedUfo(RED_UFO_TILE, new Position(3, 0));
-        Ghost testGhost = new Ghost(GHOST_TILE, new Position(4, 0));
-        setGameboardState(testGhost.getPos(), testGhost.getTile());
-        setGameboardState(testUfo2.getPos(), testUfo2.getTile());
-        /**********************************/
     }
 
     private boolean isPositionEmpty(final Position pos) {
@@ -187,6 +180,8 @@ public class SpaceShooterModel extends GameModel{
     @Override
     public void gameUpdate(int lastKey) throws GameOverException {
         tickCount++;
+
+        monsterTile.spawnMonster();
 
         //Update score and health
         menuScoreTile.setText(Integer.toString(score));
