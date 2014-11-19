@@ -5,6 +5,8 @@ public class Player extends GameEntityImplementation{
     /** The starting direction of the player. */
     private Directions playerDirection = Directions.NORTH;
 
+    public static List<PowerUp> inventoryList = new LinkedList<PowerUp>();
+
     // Starting health
     private int health = 5;
 
@@ -64,6 +66,11 @@ public class Player extends GameEntityImplementation{
         return new Position(
                 super.getPos().getX() + this.playerDirection.getXDelta(),
                 super.getPos().getY() + this.playerDirection.getYDelta());
+    }
+
+    @Override
+    public void collisionAction(Object collideObject) {
+
     }
 
 }
