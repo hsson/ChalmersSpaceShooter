@@ -1,5 +1,8 @@
 package lab1;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Player extends GameEntityImplementation{
 
     /** The starting direction of the player. */
