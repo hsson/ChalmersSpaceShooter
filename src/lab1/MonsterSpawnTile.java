@@ -1,7 +1,5 @@
 package lab1;
 
-import com.sun.org.apache.xml.internal.security.keys.content.SPKIData;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
@@ -88,13 +86,10 @@ public class MonsterSpawnTile extends GameTile{
             tankSpawnRate = 0.3+0.1*getDeltaScore(score);
             smartSpawnRate = 0.2+0.1*getDeltaScore(score);
         }
-        System.out.println(redUfoSpawnRate);
-        System.out.println(level);
-        System.out.println(spawnRate);
     }
 
     public void setLevel(int score){
-        if(score > this.LEVEL[level]){
+        if(score > LEVEL[level] && level < LEVEL.length - 1){
             level++;
         }
     }
