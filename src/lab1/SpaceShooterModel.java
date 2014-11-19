@@ -3,6 +3,7 @@ package lab1;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Iterator;
 
 public class SpaceShooterModel extends GameModel{
 
@@ -179,6 +180,16 @@ public class SpaceShooterModel extends GameModel{
 
     @Override
     public void gameUpdate(int lastKey) throws GameOverException {
+
+        // Clear the game of dead objects
+        for (Iterator<GameEntity> iterator = GameEntity.allGameEntities.iterator(); iterator.hasNext();) {
+            GameEntity e = iterator.next();
+            if (!e.getIsAlive()) {
+                // Remove the current element from the iterator and the list.
+                iterator.remove();
+            }
+        }
+
         tickCount++;
 
         monsterTile.spawnMonster();
