@@ -238,7 +238,7 @@ public class SpaceShooterModel extends GameModel{
             }
         }
 
-        //performCollisionCheck();
+        performCollisionCheck();
 
         // Update logic for Bullet
         for (Bullet bullet : Bullet.instancesList){
