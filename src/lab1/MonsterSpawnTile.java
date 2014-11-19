@@ -94,7 +94,7 @@ public class MonsterSpawnTile extends GameTile{
     }
 
     public void setLevel(int score){
-        if(score > this.LEVEL[level]){
+        if(score > LEVEL[level] && level < LEVEL.length - 1){
             level++;
         }
     }
