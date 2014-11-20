@@ -74,6 +74,10 @@ public class Player extends GameEntityImplementation{
         this.health -= amount;
     }
 
+    public void increaseHealth(int amount){
+        this.health += amount;
+    }
+
     public int getHealth() {
         return this.health;
     }

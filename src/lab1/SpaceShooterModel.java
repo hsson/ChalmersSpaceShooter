@@ -189,8 +189,8 @@ public class SpaceShooterModel extends GameModel{
                             setGameboardState(e1.getPos(), BLANK_TILE);
                     } else if(e1 instanceof Bullet) {
                         ((Bullet) e1).collisionAction(e2);
-                    } else if (e1 instanceof DoubleDamage) {
-                        ((DoubleDamage) e1).collisionAction(e2);
+                    } else if (e1 instanceof PowerUp) {
+                        ((PowerUp) e1).collisionAction(e2);
                     }
 
                 }

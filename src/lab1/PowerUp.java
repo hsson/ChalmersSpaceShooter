@@ -12,4 +12,5 @@ abstract class PowerUp extends GameEntityImplementation{
     public Position getNextPos(){
         return new Position(this.getPos().getX(), this.getPos().getY()+1);
     }
+
 }
