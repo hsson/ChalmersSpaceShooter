@@ -8,8 +8,8 @@ public class PowerUpSpawn extends GameTile{
 
     private static final int[] LEVEL = {0, 5, 15, 40, 100, 250};
     private int level = 1;
-    private static final Image DD_IMAGE = new ImageIcon("img/tile-greenufo.png").getImage();
-    private static final Image HP_IMAGE = new ImageIcon("img/tile-redufo.png").getImage();
+    private static final Image DD_IMAGE = new ImageIcon("img/tile-doubledamage.png").getImage();
+    private static final Image HP_IMAGE = new ImageIcon("img/tile-hp.png").getImage();
 
     /** The tile representing the powerUps **/
     private static final ImageTile DD_TILE = new ImageTile(DD_IMAGE);
@@ -82,7 +82,8 @@ public class PowerUpSpawn extends GameTile{
             if (chanceToSpawnType < hpUpSpawnRate){
                 // TODO: Spwan HP Up here. "new HealthUp(....);"
             } else if(chanceToSpawnType < hpUpSpawnRate + ddSpawnRate) {
-                // TODO: Spawn DD here
+                System.out.println("Spawn");
+                new DoubleDamage(DD_TILE, new Position(xPosition, this.yPos));
             }
         }
     }

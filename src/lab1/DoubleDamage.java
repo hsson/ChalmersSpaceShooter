@@ -1,8 +1,8 @@
 package lab1;
 
 public class DoubleDamage extends PowerUp{
-    public DoubleDamage(ImageTile imageTile) {
-        super(imageTile);
+    public DoubleDamage(ImageTile imageTile, Position position) {
+        super(imageTile, position);
     }
 
     @Override

@@ -20,8 +20,9 @@ public class RedUfo extends GameEntityImplementation {
 
     public void collisionAction(Object collidedWith){
         if(collidedWith instanceof Bullet){
-            decreaseHealth(1);
-            ((Bullet) collidedWith).setIsAlive(false);
+            Bullet b = (Bullet)collidedWith;
+            decreaseHealth(b.getDamage());
+            b.setIsAlive(false);
             if(getHp() <= 0) {
                 SpaceShooterModel.increaseScore(SCORE);
                 setIsAlive(false);

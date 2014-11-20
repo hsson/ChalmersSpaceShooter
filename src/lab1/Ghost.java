@@ -25,8 +25,9 @@ public class Ghost extends GameEntityImplementation{
     public void collisionAction(Object collidedWith){
         if(collidedWith instanceof Bullet){
             if(gen.nextFloat() <= 0.5) {
-                decreaseHealth(1);
-                ((Bullet) collidedWith).setIsAlive(false);
+                Bullet b = (Bullet)collidedWith;
+                decreaseHealth(b.getDamage());
+                b.setIsAlive(false);
                 if (getHp() <= 0) {
                     SpaceShooterModel.increaseScore(SCORE);
                     setIsAlive(false);

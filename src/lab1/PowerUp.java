@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 abstract class PowerUp extends GameEntityImplementation{
     public static ArrayList<PowerUp> instancesList = new ArrayList<PowerUp>();
-    public PowerUp(ImageTile imageTile) {
-        super(imageTile);
+    public PowerUp(ImageTile imageTile, Position position) {
+        super(imageTile, position);
         instancesList.add(this);
     }
 

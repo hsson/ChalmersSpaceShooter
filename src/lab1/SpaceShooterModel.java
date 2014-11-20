@@ -13,7 +13,6 @@ public class SpaceShooterModel extends GameModel{
     /** A list of images to be used in the game */
 
     private static final Image PLAYER_IMAGE = new ImageIcon("img/tile-spaceship.png").getImage();
-    private static final Image BULLET_IMAGE = new ImageIcon("img/tile-bullet.png").getImage();
     private static final Image MENU_BAR_IMAGE = new ImageIcon("img/tile-menu.png").getImage();
     private static final Image SINGLE_BULLET_IMAGE = new ImageIcon("img/tile-singlebullet.png").getImage();
     private static final Image DOUBLE_BULLET_IMAGE = new ImageIcon("img/tile-doublebullet.png").getImage();
@@ -29,9 +28,9 @@ public class SpaceShooterModel extends GameModel{
     private static final ImageTile PLAYER_TILE = new ImageTile(PLAYER_IMAGE);
 
     /** The tile representing the bullets */
-    private static final ImageTile SINGLE_BULLET_TILE = new ImageTile(BULLET_IMAGE);
-    private static final ImageTile DOUBLE_BULLET_TILE = new ImageTile(BULLET_IMAGE);
-    private static final ImageTile TRIPLE_BULLET_TILE = new ImageTile(BULLET_IMAGE);
+    private static final ImageTile SINGLE_BULLET_TILE = new ImageTile(SINGLE_BULLET_IMAGE);
+    private static final ImageTile DOUBLE_BULLET_TILE = new ImageTile(DOUBLE_BULLET_IMAGE);
+    private static final ImageTile TRIPLE_BULLET_TILE = new ImageTile(TRIPLE_BULLET_IMAGE);
 
     /** The tiles representing the menu bar*/
     private static final MenuTile MENU_BLANK = new MenuTile(MENU_BAR_IMAGE);
@@ -101,18 +100,16 @@ public class SpaceShooterModel extends GameModel{
                 Bullet bullet;
                 switch (player.getPlayerBullet()){
                     case SINGLE:
-                        bullet = new Bullet(SINGLE_BULLET_TILE, player.getPos());
-                        bullet.setDamage(1);
+                        bullet = new Bullet(SINGLE_BULLET_TILE, player.getPos(), 1);
                         break;
                     case DOUBLE:
-                        bullet = new Bullet(DOUBLE_BULLET_TILE, player.getPos());
-                        bullet.setDamage(2);
+                        bullet = new Bullet(DOUBLE_BULLET_TILE, player.getPos(), 2);
                         break;
                     case TRIPLE:
-                        bullet = new Bullet(TRIPLE_BULLET_TILE, player.getPos());
-                        bullet.setDamage(3);
+                        bullet = new Bullet(TRIPLE_BULLET_TILE, player.getPos(), 3);
                         break;
-                    default: bullet = new Bullet(SINGLE_BULLET_TILE, player.getPos()); break;
+                    default:
+                        bullet = new Bullet(SINGLE_BULLET_TILE, player.getPos(), 1); break;
                 }
                 setGameboardState(bullet.getPos().getX(), bullet.getPos().getY(), bullet.getTile());
                 break;
@@ -172,26 +169,29 @@ public class SpaceShooterModel extends GameModel{
                 GameEntity e2 = GameEntity.allGameEntities.get(j);
 
                 if (e1 != e2 && e1.getIsAlive() && e2.getIsAlive() && isCollisionBetween(e1, e2)) {
-                    if(e1 instanceof RedUfo){
+                    if (e1 instanceof RedUfo){
                         ((RedUfo) e1).collisionAction(e2);
                         if(e1.getIsAlive())
                             setGameboardState(e1.getPos(), e1.getTile());
                         else
                             setGameboardState(e1.getPos(), BLANK_TILE);
-                    }else if(e1 instanceof GreenUfo){
+                    } else if(e1 instanceof GreenUfo){
                         ((GreenUfo) e1).collisionAction(e2);
                         if(e1.getIsAlive())
                             setGameboardState(e1.getPos(), e1.getTile());
                         else
                             setGameboardState(e1.getPos(), BLANK_TILE);
-                    }else if(e1 instanceof Ghost){
+                    } else if(e1 instanceof Ghost){
                         ((Ghost) e1).collisionAction(e2);
                         if(e1.getIsAlive())
                             setGameboardState(e1.getPos(), e1.getTile());
                         else
                             setGameboardState(e1.getPos(), BLANK_TILE);
-                    }else if(e1 instanceof Bullet)
+                    } else if(e1 instanceof Bullet) {
                         ((Bullet) e1).collisionAction(e2);
+                    } else if (e1 instanceof DoubleDamage) {
+                        ((DoubleDamage) e1).collisionAction(e2);
+                    }
 
                 }
             }
@@ -268,6 +268,19 @@ public class SpaceShooterModel extends GameModel{
                         setGameboardState(ghost.getPos(), ghost.getTile());
                     } else {
                         ghost.setIsAlive(false);
+                    }
+                }
+            }
+
+            // Update logic for powerups
+            for (PowerUp power : PowerUp.instancesList) {
+                if (power.getIsAlive()) {
+                    setGameboardState(power.getPos(), BLANK_TILE);
+                    power.setPos(power.getNextPos());
+                    if (!isOutOfBounds(power.getPos())) {
+                        setGameboardState(power.getPos(), power.getTile());
+                    } else {
+                        power.setIsAlive(false);
                     }
                 }
             }

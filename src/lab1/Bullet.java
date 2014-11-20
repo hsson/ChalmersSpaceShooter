@@ -5,14 +5,10 @@ import java.util.*;
 public class Bullet extends GameEntityImplementation{
     public static ArrayList<Bullet> instancesList = new ArrayList<Bullet>();
     private int damage;
-    public Bullet(ImageTile imageTile, Position bulletPosition){
+    public Bullet(ImageTile imageTile, Position bulletPosition, int damage){
         super(imageTile, bulletPosition);
         instancesList.add(this);
-        this.damage = 1;
-    }
-
-    public Bullet(ImageTile imageTile){
-        super(imageTile);
+        this.damage = damage;
     }
 
     public void setDamage(int damage){
