@@ -42,8 +42,7 @@ public class SpaceShooterModel extends GameModel{
 
     Player player;
 
-    MonsterSpawnTile monsterTile = new MonsterSpawnTile(0,0);
-    DoubleDamage dd = new DoubleDamage(DOUBLE_BULLET_TILE);
+    SpawnTile spawnTile;
 
     public SpaceShooterModel() {
         GameEntity.allGameEntities.clear();
@@ -54,7 +53,11 @@ public class SpaceShooterModel extends GameModel{
         score = 0;
 
         Dimension gridSize = getGameboardSize();
+
+
         player = new Player(PLAYER_TILE, new Position(gridSize.width / 2, gridSize.height / 4 * 3));
+        spawnTile = new SpawnTile(gridSize.width, 0);
+
         // Fill the grid with blank tiles
         for (int i = 0; i < gridSize.width; i++) {
             for (int j = 0; j < gridSize.height; j++) {
@@ -62,11 +65,10 @@ public class SpaceShooterModel extends GameModel{
             }
         }
 
-        for(int i = 0; i < getGameboardSize().getWidth(); i++){
-            setGameboardState(i, (int)getGameboardSize().getHeight()-1, MENU_BLANK);
+        // Spawn the menu tiles
+        for(int i = 0; i < gridSize.width; i++){
+            setGameboardState(i, gridSize.height - 1, MENU_BLANK);
         }
-
-
 
         setGameboardState(0,(int)getGameboardSize().getHeight()-1, MENU_HEALTH_LABEL);
         setGameboardState(1,(int)getGameboardSize().getHeight()-1, menuHealthTile);
@@ -198,28 +200,32 @@ public class SpaceShooterModel extends GameModel{
 
     @Override
     public void gameUpdate(int lastKey) throws GameOverException {
+        tickCount++;
 
         // Clear the game of dead objects
         for (Iterator<GameEntity> iterator = GameEntity.allGameEntities.iterator(); iterator.hasNext();) {
             GameEntity e = iterator.next();
             if (!e.getIsAlive()) {
-                // Remove the current element from the iterator and the list.
                 iterator.remove();
             }
         }
 
-        tickCount++;
+        // Spawn monsters and powerups
+        spawnTile.spawn();
 
-        monsterTile.spawnMonster();
-
-        //Update score and health
+        // Update score and health
         menuScoreTile.setText(Integer.toString(score));
         menuHealthTile.setText(Integer.toString(player.getHealth()));
+
+        if (player.getHealth() <= 0) {
+            throw new GameOverException(score);
+        }
 
         handleKeyPress(lastKey);
 
         // Everything within this if statement happens every third tick
         if (tickCount % 3 == 0) {
+
             // Updates player position
             if (!isOutOfBounds(player.getNextPos()) && isPositionEmpty(player.getNextPos())) {
                 setGameboardState(player.getPos(), BLANK_TILE);
