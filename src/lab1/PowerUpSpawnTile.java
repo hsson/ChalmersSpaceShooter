@@ -43,7 +43,7 @@ public class PowerUpSpawnTile extends GameTile{
     }
 
     //TODO: Fix other names for the new powerups
-    
+
     private void setSpawnRate(int score){
         if(level == 1){
             spawnRate = 0.01;

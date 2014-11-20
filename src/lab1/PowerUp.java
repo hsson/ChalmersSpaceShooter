@@ -9,8 +9,6 @@ abstract class PowerUp extends GameEntityImplementation{
         instancesList.add(this);
     }
 
-    public abstract void pickedUp();
-
     public Position getNextPos(){
         return new Position(this.getPos().getX(), this.getPos().getY()+1);
     }

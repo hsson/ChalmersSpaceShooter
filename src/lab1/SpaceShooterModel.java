@@ -88,6 +88,7 @@ public class SpaceShooterModel extends GameModel{
                 player.setDirection(Player.Directions.SOUTH);
                 break;
             case KeyEvent.VK_SPACE:
+
                 Bullet bullet = new Bullet(BULLET_TILE, new Position(player.getPos().getX(), player.getPos().getY()-1));
                 setGameboardState(bullet.getPos().getX(), bullet.getPos().getY(), BULLET_TILE);
                 break;
