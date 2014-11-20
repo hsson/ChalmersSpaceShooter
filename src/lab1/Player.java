@@ -8,10 +8,19 @@ public class Player extends GameEntityImplementation{
     /** The starting direction of the player. */
     private Directions playerDirection = Directions.NORTH;
 
+    /** The starting bullet type of the player */
+    private Bullets playerBullet = Bullets.SINGLE;
+
     public static List<PowerUp> inventoryList = new LinkedList<PowerUp>();
 
     // Starting health
     private int health = 5;
+
+    public enum Bullets {
+        SINGLE,
+        DOUBLE,
+        TRIPLE;
+    }
 
     public enum Directions {
         EAST(1, 0),
@@ -51,6 +60,14 @@ public class Player extends GameEntityImplementation{
 
     public Directions getDirection(){
         return playerDirection;
+    }
+
+    public void setPlayerBullet(Bullets playerBullet) {
+        this.playerBullet = playerBullet;
+    }
+
+    public Bullets getPlayerBullet() {
+        return playerBullet;
     }
 
     public void decreaseHealth(int amount) {
