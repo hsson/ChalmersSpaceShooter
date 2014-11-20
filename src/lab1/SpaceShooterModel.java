@@ -179,28 +179,32 @@ public class SpaceShooterModel extends GameModel{
 
     @Override
     public void gameUpdate(int lastKey) throws GameOverException {
+        tickCount++;
 
         // Clear the game of dead objects
         for (Iterator<GameEntity> iterator = GameEntity.allGameEntities.iterator(); iterator.hasNext();) {
             GameEntity e = iterator.next();
             if (!e.getIsAlive()) {
-                // Remove the current element from the iterator and the list.
                 iterator.remove();
             }
         }
 
-        tickCount++;
-
+        // Spawn monsters and powerups
         spawnTile.spawn();
 
-        //Update score and health
+        // Update score and health
         menuScoreTile.setText(Integer.toString(score));
         menuHealthTile.setText(Integer.toString(player.getHealth()));
+
+        if (player.getHealth() <= 0) {
+            throw new GameOverException(score);
+        }
 
         handleKeyPress(lastKey);
 
         // Everything within this if statement happens every third tick
         if (tickCount % 3 == 0) {
+
             // Updates player position
             if (!isOutOfBounds(player.getNextPos()) && isPositionEmpty(player.getNextPos())) {
                 setGameboardState(player.getPos(), BLANK_TILE);
@@ -277,6 +281,5 @@ public class SpaceShooterModel extends GameModel{
         }
 
         performCollisionCheck();
-
     }
 }
