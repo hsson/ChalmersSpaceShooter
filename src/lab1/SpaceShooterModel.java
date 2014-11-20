@@ -232,9 +232,6 @@ public class SpaceShooterModel extends GameModel{
                 setGameboardState(player.getPos(), BLANK_TILE);
                 player.setPos(player.getNextPos());
                 setGameboardState(player.getPos(), PLAYER_TILE);
-            } else {
-                player.setDirection(Player.Directions.NONE);
-                setGameboardState(player.getNextPos(), PLAYER_TILE);
             }
 
             // Update logic for GreenUfo
@@ -307,5 +304,6 @@ public class SpaceShooterModel extends GameModel{
 
         performCollisionCheck();
 
+        setGameboardState(player.getPos(), PLAYER_TILE);
     }
 }
