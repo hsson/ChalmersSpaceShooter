@@ -2,18 +2,18 @@ package lab1;
 
 import java.util.ArrayList;
 
-public class GreenUfo extends GameEntityImplementation {
+public class RedUfo extends GameEntityImplementation {
 
-    public static ArrayList<GreenUfo> instancesList = new ArrayList<GreenUfo>();
-    private int hp = 1;
-    private static final int SCORE = 1;
+    public static ArrayList<RedUfo> instancesList = new ArrayList<RedUfo>();
+    private int hp = 5;
+    private static final int SCORE = 2;
 
-    public GreenUfo(ImageTile imageTile) {
+    public RedUfo(ImageTile imageTile) {
         super(imageTile);
         instancesList.add(this);
     }
 
-    public GreenUfo(ImageTile imageTile, Position ufoPosition) {
+    public RedUfo(ImageTile imageTile, Position ufoPosition) {
         super(imageTile, ufoPosition);
         instancesList.add(this);
     }
@@ -41,23 +41,9 @@ public class GreenUfo extends GameEntityImplementation {
         return hp;
     }
 
-    public void decreaseHealth(int deceasement){
-             hp = hp - deceasement;
+    public void decreaseHealth(int decreasement){
+             hp = hp - decreasement;
          }
-
-    public void collisionEvent(Object collidedObject){
-        if(collidedObject instanceof Bullet){
-            if(getHp() > 0){
-                decreaseHealth(1);
-            }else{
-                setIsAlive(false);
-            }
-            ((Bullet) collidedObject).setIsAlive(false);
-        }else if(collidedObject instanceof Player){
-            setIsAlive(false);
-            ((Player) collidedObject).decreaseHealth(1);
-        }
-    }
 
     @Override
     public Position getNextPos(){
