@@ -44,29 +44,29 @@ public class PowerUpSpawn extends GameTile{
     
     private void setSpawnRate(int score){
         if(level == 1){
-            spawnRate = 0.01;
-            ddSpawnRate = 1;
-            hpUpSpawnRate = 0;
+            spawnRate = 0.001;
+            ddSpawnRate = 0.5;
+            hpUpSpawnRate = 0.5;
         }else if(level == 2){
-            spawnRate = 0.02;
-            ddSpawnRate = 0.65;
-            hpUpSpawnRate = 0.35;
+            spawnRate = 0.002;
+            ddSpawnRate = 0.5;
+            hpUpSpawnRate = 0.5;
         }else if(level == 3){
-            spawnRate = 0.03;
-            ddSpawnRate = 0.3;
+            spawnRate = 0.003;
+            ddSpawnRate = 0.5;
             hpUpSpawnRate = 0.5;
         }else if(level == 4){
-            spawnRate = 0.25+0.005*getDeltaScore(score);
-            ddSpawnRate = 0;
-            hpUpSpawnRate = 0.7;
+            spawnRate = 0.004;
+            ddSpawnRate = 0.5;
+            hpUpSpawnRate = 0.5;
         }else if(level == 5){
-            spawnRate = 0.4+0.0025*getDeltaScore(score);
-            ddSpawnRate = 0;
+            spawnRate = 0.005;
+            ddSpawnRate = 0.5;
             hpUpSpawnRate = 0.5;
         }else{
-            spawnRate = 0.6+0.001*getDeltaScore(score);
-            ddSpawnRate = 0;
-            hpUpSpawnRate = 0;
+            spawnRate = 0.006+0.001*getDeltaScore(score);
+            ddSpawnRate = 0.5;
+            hpUpSpawnRate = 0.5;
         }
     }
 
@@ -85,9 +85,9 @@ public class PowerUpSpawn extends GameTile{
             SpawnTile.addOccupiedXPos(xPosition);
             double chanceToSpawnType = gen.nextDouble();
             if (chanceToSpawnType < hpUpSpawnRate){
-                // TODO: Spwan HP Up here. "new HealthUp(....);"
+                new PowerUpHP(HP_UP_TILE, new Position(xPosition, this.yPos));
             } else if(chanceToSpawnType < hpUpSpawnRate + ddSpawnRate) {
-                new DoubleDamage(DD_TILE, new Position(xPosition, this.yPos));
+                new PowerUpDD(DD_TILE, new Position(xPosition, this.yPos));
             }
         }
     }
