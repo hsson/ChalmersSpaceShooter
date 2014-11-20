@@ -37,13 +37,6 @@ public class SpaceShooterModel extends GameModel{
 
     Player player;
 
-
-    /*MonsterSpawnTile[] monsterTiles = {new MonsterSpawnTile(0,0), new MonsterSpawnTile(1,0), new MonsterSpawnTile(2,0),
-            new MonsterSpawnTile(3,0), new MonsterSpawnTile(4,0), new MonsterSpawnTile(5,0), new MonsterSpawnTile(6,0),
-            new MonsterSpawnTile(7,0), new MonsterSpawnTile(8,0), new MonsterSpawnTile(9,0), new MonsterSpawnTile(10,0),
-            new MonsterSpawnTile(11,0), new MonsterSpawnTile(12,0), new MonsterSpawnTile(13,0), new MonsterSpawnTile(14,0)
-            , new MonsterSpawnTile(15,0)};*/
-
     MonsterSpawnTile monsterTile = new MonsterSpawnTile(0,0);
 
     public SpaceShooterModel() {
@@ -207,6 +200,19 @@ public class SpaceShooterModel extends GameModel{
                 setGameboardState(player.getPos(), BLANK_TILE);
                 player.setPos(player.getNextPos());
                 setGameboardState(player.getPos(), PLAYER_TILE);
+            }
+
+            //Update logic for powerUps
+            for (PowerUp poUp : PowerUp.instancesList) {
+                if (poUp.getIsAlive()) {
+                    setGameboardState(poUp.getPos(), BLANK_TILE);
+                    poUp.setPos(poUp.getNextPos());
+                    if (!isOutOfBounds(poUp.getPos())) {
+                        setGameboardState(poUp.getPos(), poUp.getTile());
+                    } else {
+                        poUp.setIsAlive(false);
+                    }
+                }
             }
 
             // Update logic for GreenUfo
