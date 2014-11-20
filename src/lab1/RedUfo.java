@@ -6,7 +6,7 @@ public class RedUfo extends GameEntityImplementation {
 
     public static ArrayList<RedUfo> instancesList = new ArrayList<RedUfo>();
     private int hp = 5;
-    private static final int SCORE = 3;
+    private static final int SCORE = 2;
 
     public RedUfo(ImageTile imageTile) {
         super(imageTile);
