@@ -9,7 +9,7 @@ public class DoubleDamage extends PowerUp{
     public void collisionAction(Object collideObject) {
         if(collideObject instanceof Player){
             this.setIsAlive(false);
-
+            ((Player) collideObject).setPlayerBullet(Player.Bullets.DOUBLE);
         }
     }
 

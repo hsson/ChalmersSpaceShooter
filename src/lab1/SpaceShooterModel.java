@@ -15,6 +15,9 @@ public class SpaceShooterModel extends GameModel{
     private static final Image PLAYER_IMAGE = new ImageIcon("img/tile-spaceship.png").getImage();
     private static final Image BULLET_IMAGE = new ImageIcon("img/tile-bullet.png").getImage();
     private static final Image MENU_BAR_IMAGE = new ImageIcon("img/tile-menu.png").getImage();
+    private static final Image SINGLE_BULLET_IMAGE = new ImageIcon("img/tile-singlebullet.png").getImage();
+    private static final Image DOUBLE_BULLET_IMAGE = new ImageIcon("img/tile-doublebullet.png").getImage();
+    private static final Image TRIPLE_BULLET_IMAGE = new ImageIcon("img/tile-triplebullet.png").getImage();
 
 
     /** END OF IMAGE LIST */
@@ -26,7 +29,9 @@ public class SpaceShooterModel extends GameModel{
     private static final ImageTile PLAYER_TILE = new ImageTile(PLAYER_IMAGE);
 
     /** The tile representing the bullets */
-    private static final ImageTile BULLET_TILE = new ImageTile(BULLET_IMAGE);
+    private static final ImageTile SINGLE_BULLET_TILE = new ImageTile(BULLET_IMAGE);
+    private static final ImageTile DOUBLE_BULLET_TILE = new ImageTile(BULLET_IMAGE);
+    private static final ImageTile TRIPLE_BULLET_TILE = new ImageTile(BULLET_IMAGE);
 
     /** The tiles representing the menu bar*/
     private static final MenuTile MENU_BLANK = new MenuTile(MENU_BAR_IMAGE);
@@ -38,6 +43,7 @@ public class SpaceShooterModel extends GameModel{
     Player player;
 
     MonsterSpawnTile monsterTile = new MonsterSpawnTile(0,0);
+    DoubleDamage dd = new DoubleDamage(DOUBLE_BULLET_TILE);
 
     public SpaceShooterModel() {
         GameEntity.allGameEntities.clear();
@@ -59,6 +65,8 @@ public class SpaceShooterModel extends GameModel{
         for(int i = 0; i < getGameboardSize().getWidth(); i++){
             setGameboardState(i, (int)getGameboardSize().getHeight()-1, MENU_BLANK);
         }
+
+
 
         setGameboardState(0,(int)getGameboardSize().getHeight()-1, MENU_HEALTH_LABEL);
         setGameboardState(1,(int)getGameboardSize().getHeight()-1, menuHealthTile);
@@ -88,9 +96,23 @@ public class SpaceShooterModel extends GameModel{
                 player.setDirection(Player.Directions.SOUTH);
                 break;
             case KeyEvent.VK_SPACE:
-
-                Bullet bullet = new Bullet(BULLET_TILE, new Position(player.getPos().getX(), player.getPos().getY()-1));
-                setGameboardState(bullet.getPos().getX(), bullet.getPos().getY(), BULLET_TILE);
+                Bullet bullet;
+                switch (player.getPlayerBullet()){
+                    case SINGLE:
+                        bullet = new Bullet(SINGLE_BULLET_TILE, player.getPos());
+                        bullet.setDamage(1);
+                        break;
+                    case DOUBLE:
+                        bullet = new Bullet(DOUBLE_BULLET_TILE, player.getPos());
+                        bullet.setDamage(2);
+                        break;
+                    case TRIPLE:
+                        bullet = new Bullet(TRIPLE_BULLET_TILE, player.getPos());
+                        bullet.setDamage(3);
+                        break;
+                    default: bullet = new Bullet(SINGLE_BULLET_TILE, player.getPos()); break;
+                }
+                setGameboardState(bullet.getPos().getX(), bullet.getPos().getY(), bullet.getTile());
                 break;
             default:
                 // Don't change direction if another key is pressed
@@ -166,7 +188,9 @@ public class SpaceShooterModel extends GameModel{
                             setGameboardState(e1.getPos(), e1.getTile());
                         else
                             setGameboardState(e1.getPos(), BLANK_TILE);
-                    }
+                    }else if(e1 instanceof Bullet)
+                        ((Bullet) e1).collisionAction(e2);
+
                 }
             }
         }
@@ -201,19 +225,6 @@ public class SpaceShooterModel extends GameModel{
                 setGameboardState(player.getPos(), BLANK_TILE);
                 player.setPos(player.getNextPos());
                 setGameboardState(player.getPos(), PLAYER_TILE);
-            }
-
-            //Update logic for powerUps
-            for (PowerUp poUp : PowerUp.instancesList) {
-                if (poUp.getIsAlive()) {
-                    setGameboardState(poUp.getPos(), BLANK_TILE);
-                    poUp.setPos(poUp.getNextPos());
-                    if (!isOutOfBounds(poUp.getPos())) {
-                        setGameboardState(poUp.getPos(), poUp.getTile());
-                    } else {
-                        poUp.setIsAlive(false);
-                    }
-                }
             }
 
             // Update logic for GreenUfo
