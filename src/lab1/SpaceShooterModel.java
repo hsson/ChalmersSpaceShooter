@@ -191,6 +191,7 @@ public class SpaceShooterModel extends GameModel{
                         ((Bullet) e1).collisionAction(e2);
                     } else if (e1 instanceof PowerUp) {
                         ((PowerUp) e1).collisionAction(e2);
+                        setGameboardState(e1.getPos(), BLANK_TILE);
                     }
 
                 }
