@@ -99,7 +99,12 @@ public class MonsterSpawn extends GameTile{
         setSpawnRate(score);
         double chanceToSpawnMonster = gen.nextDouble();
         if(chanceToSpawnMonster < spawnRate){
-            int xPosition = gen.nextInt(this.width);
+            int xPosition;
+            do {
+                xPosition = gen.nextInt(this.width);
+            } while (SpawnTile.isXPosOccupied(xPosition));
+
+            SpawnTile.addOccupiedXPos(xPosition);
             double chanceToSpawnType = gen.nextDouble();
             if(chanceToSpawnType < greenUfoSpawnRate){
                 new GreenUfo(GREEN_UFO_TILE, new Position(xPosition, this.yPos));

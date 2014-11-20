@@ -77,12 +77,16 @@ public class PowerUpSpawn extends GameTile{
 
         double spawnChance = gen.nextDouble();
         if(spawnChance < spawnRate){
-            int xPosition = gen.nextInt(this.width);
+            int xPosition;
+            do {
+                xPosition = gen.nextInt(this.width);
+            } while (SpawnTile.isXPosOccupied(xPosition));
+
+            SpawnTile.addOccupiedXPos(xPosition);
             double chanceToSpawnType = gen.nextDouble();
             if (chanceToSpawnType < hpUpSpawnRate){
                 // TODO: Spwan HP Up here. "new HealthUp(....);"
             } else if(chanceToSpawnType < hpUpSpawnRate + ddSpawnRate) {
-                System.out.println("Spawn");
                 new DoubleDamage(DD_TILE, new Position(xPosition, this.yPos));
             }
         }
