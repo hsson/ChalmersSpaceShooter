@@ -41,6 +41,8 @@ public class MonsterSpawn extends GameTile{
         return score-LEVEL[level-1];
     }
 
+    /* Sets the spawnrate of all the monsters */
+    /* Not all the monsters have been implemented but we have tried to balance those too */
     private void setSpawnRate(int score){
         if(level == 1){
             spawnRate = 0.07+0.01*getDeltaScore(score);
