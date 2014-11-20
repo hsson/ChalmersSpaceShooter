@@ -18,4 +18,9 @@ public class Bullet extends GameEntityImplementation{
     public Position getNextPos(){
         return new Position(super.getPos().getX(), super.getPos().getY() - 1);
     }
+
+    @Override
+    public void collisionAction(Object collideObject) {
+
+    }
 }

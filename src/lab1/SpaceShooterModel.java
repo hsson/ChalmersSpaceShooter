@@ -37,7 +37,7 @@ public class SpaceShooterModel extends GameModel{
 
     Player player;
 
-    MonsterSpawnTile monsterTile = new MonsterSpawnTile(0,0);
+    SpawnTile spawnTile;
 
     public SpaceShooterModel() {
         GameEntity.allGameEntities.clear();
@@ -48,7 +48,11 @@ public class SpaceShooterModel extends GameModel{
         score = 0;
 
         Dimension gridSize = getGameboardSize();
+
+
         player = new Player(PLAYER_TILE, new Position(gridSize.width / 2, gridSize.height / 4 * 3));
+        spawnTile = new SpawnTile(gridSize.width, 0);
+
         // Fill the grid with blank tiles
         for (int i = 0; i < gridSize.width; i++) {
             for (int j = 0; j < gridSize.height; j++) {
@@ -56,8 +60,9 @@ public class SpaceShooterModel extends GameModel{
             }
         }
 
-        for(int i = 0; i < getGameboardSize().getWidth(); i++){
-            setGameboardState(i, (int)getGameboardSize().getHeight()-1, MENU_BLANK);
+        // Spawn the menu tiles
+        for(int i = 0; i < gridSize.width; i++){
+            setGameboardState(i, gridSize.height - 1, MENU_BLANK);
         }
 
         setGameboardState(0,(int)getGameboardSize().getHeight()-1, MENU_HEALTH_LABEL);
@@ -186,7 +191,7 @@ public class SpaceShooterModel extends GameModel{
 
         tickCount++;
 
-        monsterTile.spawnMonster();
+        spawnTile.spawn();
 
         //Update score and health
         menuScoreTile.setText(Integer.toString(score));
